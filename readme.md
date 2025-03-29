@@ -1,0 +1,1 @@
+Aquí voy a hacer proyectos utilizando sólo el vibe coding, a ver como sale esto ahora que los agentes de programación han mejorado tanto.
