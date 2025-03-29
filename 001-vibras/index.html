@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generador de Vibras</title>
+  <link rel="short-cut icon" href="assets/icon/white.png">
+  <style>
+    body {
+        height: 100vh;
+        font-size: 30px;
+        font-family: 'Segoe UI', sans-serif;
+        text-align: center;
+        padding: 50px;
+        transition: all 0.5s;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+    
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+    }
+
+    button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .neutral{
+        background:  #ffa99f;
+    }
+    .good {
+      background-color: #8ef6e4;
+    }
+
+    .bad {
+      background-color: #f67280;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .phrase {
+      font-size: 2em;
+      min-height: 4em; /* Asegura un espacio mínimo */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center; /* Centra el texto en varias líneas */
+      margin: 0; /* Elimina el margen superior */
+      line-height: 1.2; /* Ajusta el espaciado entre líneas */
+    }
+
+    .good.outline{
+        border: 2px solid #73c9bb;
+    }
+    
+    .bad.outline{
+        border: 2px solid #9f4851;
+    }
+  </style>
+</head>
+<body class="neutral">
+  <h1>¿Qué vibra quieres hoy?</h1>
+  <button class="good" id="btnGood">🔆 Buenas vibras</button>
+  <button class="bad" id="btnBad">🌩️ Malas vibras</button>
+
+  <div class="phrase" id="phraseDisplay">✨</div>
+
+
+  <audio id="soundGood" src="assets/sounds/good.mp3" preload="auto"></audio>
+  <audio id="soundBad" src="assets/sounds/bad.mp3" preload="auto"></audio>
+
+  <script>
+    // Variables
+    let timeouts = [];
+
+    // los sonidos
+    const soundGood = document.getElementById('soundGood');
+    const soundBad = document.getElementById('soundBad');
+
+    // los botones
+    const btnGood = document.getElementById('btnGood');
+    const btnBad = document.getElementById('btnBad');
+
+    // el icono
+    const favicon = document.querySelector('link[rel="short-cut icon"]');
+    
+    // las frases
+    const goodVibes = [
+        "Hoy es un gran día para empezar algo nuevo 🌞",
+        "Estás más cerca de lo que crees 💪",
+        "Tu energía ilumina este lugar ✨",
+        "Confía en ti, lo estás haciendo bien 🌈",
+        "Respira, sonríe y sigue 🌻",
+        "La vida es un viaje, disfruta del paisaje 🚀",
+        "Hoy es un buen día para ser feliz 😊",
+        "Las estrellas están alineadas a tu favor 🌌",
+        "Cada día es una nueva oportunidad para brillar 🌟",
+        "La felicidad es un estado mental, ¡elígela hoy! 🌼",
+        "Las pequeñas cosas son las que cuentan, ¡aprecialas! 🍀"
+    ];
+
+    const badVibes = [
+        "No todos los días brillan, y este claramente no ☁️",
+        "Hoy es un buen día para quedarte en la cama 🛌",
+        "Día de mierda en la oficina, pero al menos hay café ☕",
+        "La vida es dura, pero tú eres más duro 💪",
+        "¿Motivación? Se fue de vacaciones 💤",
+        "Hazlo... o no, tampoco es que importe mucho 🤷",
+        "Al menos no ha explotado nada aún 💣",
+        "Esto va mal. Pero oye, podría ir peor 🔥",
+        "Hoy no es tu día, pero mañana puede serlo... o no 🤔",
+        "La vida es como un chiste malo, a veces no tiene sentido 😂",
+        "No te preocupes, el caos es parte de la vida 🌀",
+        "La vida es un ciclo, y hoy te tocó el lado oscuro 🌑",
+        "A veces es mejor no hacer nada y dejar que el universo se encargue de los problemas... o no 🤷‍♂️",
+    ];
+
+    // Función para obtener una frase aleatoria
+    function getVibe(type) {
+        clearAllTimeouts();
+        const phraseDisplay = document.getElementById('phraseDisplay')
+        const vibes = type === 'good' ? goodVibes : badVibes
+        const randomIndex = Math.floor(Math.random() * vibes.length)
+        let frase = vibes[randomIndex]
+        phraseDisplay.textContent = ''
+        for (let letra in frase){
+            const id = setTimeout(() => {
+                phraseDisplay.textContent += frase[letra];
+            }, letra * 50)  
+            timeouts.push(id)
+        }
+        const isGood = type === 'good';
+        document.body.classList.add(isGood ? 'good' : 'bad');
+        document.body.classList.remove(isGood ? 'bad' : 'good');
+        favicon.href = isGood ? 'assets/icon/good.png' : 'assets/icon/bad.png';
+
+        const sound = isGood ? soundGood : soundBad;
+        sound.currentTime = 0;
+        sound.play();
+    }
+
+    // Función para limpiar todos los timeouts
+    function clearAllTimeouts() {
+        for (const id of timeouts) {
+            clearTimeout(id);
+        }
+        timeouts = []; // Limpia el array
+    }
+
+    // Los eventos
+    btnGood.addEventListener('click', () => {
+        getVibe('good');
+        btnGood.classList.add('outline');
+        btnBad.classList.remove('outline');
+    })
+    btnBad.addEventListener('click', () => {
+        getVibe('bad');
+        btnBad.classList.add('outline');
+        btnGood.classList.remove('outline');
+    })
+  </script>
+</body>
+</html>
