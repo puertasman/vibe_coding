@@ -10,11 +10,6 @@
         font-size: 30px; /* Tamaño por defecto */
     }
 
-    @media (max-width: 768px) {
-        body {
-            font-size: 20px;
-        }
-    }
     body {
         height: 100vh;
         font-family: 'Segoe UI', sans-serif;
@@ -78,7 +73,30 @@
     .bad.outline{
         border: 2px solid #9f4851;
     }
-  </style>
+    @media (max-width: 768px) {
+        body {
+            padding: 10px; /* Reduce el padding general */
+            justify-content: space-evenly; /* Distribuye los elementos */
+        }
+
+        h1 {
+            font-size: 1.5em; /* Reduce el tamaño del título */
+            margin-bottom: 10px; /* Reduce el margen inferior */
+        }
+
+        button {
+            font-size: 0.9em; /* Reduce el tamaño de los botones */
+            padding: 8px 16px; /* Reduce el relleno de los botones */
+            margin: 5px 0; /* Reduce el margen entre botones */
+        }
+
+        .phrase {
+            font-size: 1.2em; /* Reduce el tamaño de la frase */
+            min-height: 3em; /* Reduce la altura mínima */
+            margin-top: 10px; /* Añade un pequeño margen superior */
+        }
+    }
+    </style>
 </head>
 <body class="neutral">
   <h1>¿Qué vibra quieres hoy?</h1>
