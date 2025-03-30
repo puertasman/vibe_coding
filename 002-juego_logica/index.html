@@ -46,7 +46,8 @@
 <body>
     <div class="container-fluid p-0">
     <div class="container-fluid bg-light text-dark text-center p-3 m-0 titulo">
-        <h1>Juego de Lógica</h1>
+        <h1>Juegos de Lógica</h1>
+        <button class="btn btn-light" id="btnVolver" style="display: none;">Volver</button>
     </div>
     <section id="pantallaInicio" class="bg-light text-dark text-center p-5 m-0">
         <button class="button">🔢 Números</button>
@@ -75,8 +76,12 @@
         let pantallaFinal = document.getElementById('pantallaFinal')
         let tituloPantallaJuego = document.getElementById('tituloPantallaJuego')
         let botonesInicio = document.querySelectorAll('#pantallaInicio .button');
+        let tipoSeleccionado = ''
+        let btnVolver = document.getElementById('btnVolver')
+
         botonesInicio.forEach((boton)=>{
             boton.addEventListener('click', function() {
+                btnVolver.style.display = 'block';
                 pantallaInicio.style.display = 'none';
                 pantallaJuego.style.display = 'block';
                 tituloPantallaJuego.textContent = boton.textContent;
