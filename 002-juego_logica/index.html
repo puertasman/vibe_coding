@@ -48,19 +48,40 @@
     <div class="container-fluid bg-light text-dark text-center p-3 m-0 titulo">
         <h1>Juego de Lógica</h1>
     </div>
-    <section id="pantalla-inicio" class="bg-light text-dark text-center p-5 m-0">
+    <section id="pantallaInicio" class="bg-light text-dark text-center p-5 m-0">
         <button class="button">🔢 Números</button>
         <button class="button">🎨 Formas / colores</button>
         <button class="button">🔀 Mixtos</button>
       </section>
       
-      <section id="pantalla-juego" style="display: none;">
-        <!-- patrón y opciones -->
+      <section id="pantallaJuego" style="display: none;" class="bg-light text-dark text-center p-5 m-0">
+            <h2 id="tituloPantallaJuego"></h2>
+            <p id="pregunta"></p>
+            <button class="button" id="respuesta1"></button>
+            <button class="button" id="respuesta2"></button>
+            <button class="button" id="respuesta3"></button>
+            <button class="button" id="respuesta4"></button>
       </section>
       
-      <section id="pantalla-final" style="display: none;">
+      <section id="pantallaFinal" style="display: none;" class="bg-light text-dark text-center p-5 m-0">
         <!-- resultado -->
       </section>
     </div>
+
+    <script>
+        // Variables
+        let pantallaInicio = document.getElementById('pantallaInicio')
+        let pantallaJuego = document.getElementById('pantallaJuego')
+        let pantallaFinal = document.getElementById('pantallaFinal')
+        let tituloPantallaJuego = document.getElementById('tituloPantallaJuego')
+        let botonesInicio = document.querySelectorAll('#pantallaInicio .button');
+        botonesInicio.forEach((boton)=>{
+            boton.addEventListener('click', function() {
+                pantallaInicio.style.display = 'none';
+                pantallaJuego.style.display = 'block';
+                tituloPantallaJuego.textContent = boton.textContent;
+            })
+        })
+    </script>
 </body>
 </html>
