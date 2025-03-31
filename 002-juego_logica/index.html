@@ -76,8 +76,11 @@
       </section>
     </div>
 
+    <script src="assets/js/preguntas.js/"></script>
     <script>
         // Variables
+        let preguntaActual = 0;
+
         let pantallaInicio = document.getElementById('pantallaInicio')
         let pantallaJuego = document.getElementById('pantallaJuego')
         let pantallaFinal = document.getElementById('pantallaFinal')
@@ -85,6 +88,27 @@
         let botonesInicio = document.querySelectorAll('#pantallaInicio .button');
         let tipoSeleccionado = ''
         let btnVolver = document.getElementById('btnVolver')
+
+        function cargarPregunta(categoria) {
+        const pregunta = preguntas.find(p => p.categoria === categoria);
+        if (pregunta) {
+            document.getElementById('pregunta').textContent = pregunta.pregunta;
+            document.getElementById('respuesta1').textContent = pregunta.respuestas[0];
+            document.getElementById('respuesta2').textContent = pregunta.respuestas[1];
+            document.getElementById('respuesta3').textContent = pregunta.respuestas[2];
+            document.getElementById('respuesta4').textContent = pregunta.respuestas[3];
+            document.querySelector('#respuestas button').forEach((boton)=>
+                boton.addEventListener('click',function(){
+                alert('respuesta')
+            })
+            )
+        }
+        else{
+            pantallaJuego.style.display = 'none';
+            pantallaFinal.style.display = 'block';
+        }
+    }
+
 
         botonesInicio.forEach((boton)=>{
             boton.addEventListener('click', function() {
