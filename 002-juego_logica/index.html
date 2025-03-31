@@ -41,13 +41,20 @@
         button:hover {
             transform: scale(1.1);
         }
+
+        button#btnVolver{
+            position: absolute;
+            top: 0;
+            right: 20px;
+            background-color: #f67280;
+        }
     </style>
 </head>
 <body>
     <div class="container-fluid p-0">
     <div class="container-fluid bg-light text-dark text-center p-3 m-0 titulo">
         <h1>Juegos de Lógica</h1>
-        <button class="btn btn-light" id="btnVolver" style="display: none;">Volver</button>
+        <button class="button" id="btnVolver" style="display: none;">⬅️ Volver</button>
     </div>
     <section id="pantallaInicio" class="bg-light text-dark text-center p-5 m-0">
         <button class="button">🔢 Números</button>
@@ -86,6 +93,12 @@
                 pantallaJuego.style.display = 'block';
                 tituloPantallaJuego.textContent = boton.textContent;
             })
+        })
+
+        btnVolver.addEventListener('click', function() {
+            pantallaInicio.style.display = 'block';
+            pantallaJuego.style.display = 'none';
+            btnVolver.style.display = 'none';
         })
     </script>
 </body>
