@@ -48,6 +48,12 @@
             right: 20px;
             background-color: #f67280;
         }
+        .correcto{
+            background-color: aquamarine;
+        }
+        .fallo{
+            background-color: #f67280;
+        }
     </style>
 </head>
 <body>
@@ -65,10 +71,12 @@
       <section id="pantallaJuego" style="display: none;" class="bg-light text-dark text-center p-5 m-0">
             <h2 id="tituloPantallaJuego"></h2>
             <p id="pregunta"></p>
-            <button class="button" id="respuesta1"></button>
-            <button class="button" id="respuesta2"></button>
-            <button class="button" id="respuesta3"></button>
-            <button class="button" id="respuesta4"></button>
+            <div id="respuestas">
+                <button class="button" id="respuesta1"></button>
+                <button class="button" id="respuesta2"></button>
+                <button class="button" id="respuesta3"></button>
+                <button class="button" id="respuesta4"></button>
+            </div>
       </section>
       
       <section id="pantallaFinal" style="display: none;" class="bg-light text-dark text-center p-5 m-0">
@@ -76,7 +84,7 @@
       </section>
     </div>
 
-    <script src="assets/js/preguntas.js/"></script>
+    <script src="assets/js/preguntas.js"></script>
     <script>
         // Variables
         let preguntaActual = 0;
@@ -85,45 +93,65 @@
         let pantallaJuego = document.getElementById('pantallaJuego')
         let pantallaFinal = document.getElementById('pantallaFinal')
         let tituloPantallaJuego = document.getElementById('tituloPantallaJuego')
-        let botonesInicio = document.querySelectorAll('#pantallaInicio .button');
+        let botonesInicio = document.querySelectorAll('#pantallaInicio .button')
         let tipoSeleccionado = ''
         let btnVolver = document.getElementById('btnVolver')
+        let categoria = ''
 
         function cargarPregunta(categoria) {
-        const pregunta = preguntas.find(p => p.categoria === categoria);
-        if (pregunta) {
-            document.getElementById('pregunta').textContent = pregunta.pregunta;
-            document.getElementById('respuesta1').textContent = pregunta.respuestas[0];
-            document.getElementById('respuesta2').textContent = pregunta.respuestas[1];
-            document.getElementById('respuesta3').textContent = pregunta.respuestas[2];
-            document.getElementById('respuesta4').textContent = pregunta.respuestas[3];
-            document.querySelector('#respuestas button').forEach((boton)=>
-                boton.addEventListener('click',function(){
-                alert('respuesta')
-            })
-            )
+            const pregunta = preguntas.find(p => p.categoria === categoria)
+
+            if (pregunta) {
+                let correcta = pregunta.correcta
+                document.getElementById('pregunta').textContent = pregunta.pregunta
+                respuestas = shuffle(pregunta.respuestas)
+                document.getElementById('respuesta1').textContent = pregunta.respuestas[0]
+                document.getElementById('respuesta2').textContent = pregunta.respuestas[1]
+                document.getElementById('respuesta3').textContent = pregunta.respuestas[2]
+                document.getElementById('respuesta4').textContent = pregunta.respuestas[3]
+                let botonesRespuestas = document.querySelectorAll('#respuestas button')
+                botonesRespuestas.forEach((boton) => {
+                    boton.classList.remove('correcto', 'fallo')
+                    boton.onclick = function() {
+                        if (boton.textContent === correcta) {
+                            boton.classList.add('correcto')
+                        } else {
+                            boton.classList.add('fallo')
+                        }
+                    }
+                })
+            }
+            else{
+                pantallaJuego.style.display = 'none'
+                pantallaFinal.style.display = 'block'
+            }
         }
-        else{
-            pantallaJuego.style.display = 'none';
-            pantallaFinal.style.display = 'block';
-        }
-    }
 
 
         botonesInicio.forEach((boton)=>{
             boton.addEventListener('click', function() {
-                btnVolver.style.display = 'block';
-                pantallaInicio.style.display = 'none';
-                pantallaJuego.style.display = 'block';
-                tituloPantallaJuego.textContent = boton.textContent;
+                btnVolver.style.display = 'block'
+                pantallaInicio.style.display = 'none'
+                pantallaJuego.style.display = 'block'
+                tituloPantallaJuego.textContent = boton.textContent
+                categoria = boton.textContent
+                cargarPregunta(categoria)
             })
         })
 
         btnVolver.addEventListener('click', function() {
-            pantallaInicio.style.display = 'block';
-            pantallaJuego.style.display = 'none';
-            btnVolver.style.display = 'none';
+            pantallaInicio.style.display = 'block'
+            pantallaJuego.style.display = 'none'
+            btnVolver.style.display = 'none'
         })
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Intercambio
+            }
+            return array;
+        }
     </script>
 </body>
 </html>
